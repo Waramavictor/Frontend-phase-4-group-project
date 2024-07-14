@@ -1,5 +1,4 @@
 
-// //appContext//
 // import React, { createContext, useContext, useState } from "react";
 
 // const AppContext = createContext();
@@ -14,6 +13,7 @@
 
 // const AppContextProvider = ({ children }) => {
 //   const [favorites, setFavorites] = useState([]);
+//   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 //   const addFavorites = (book) => {
 //     setFavorites((prevFavorites) => [...prevFavorites, book]);
@@ -23,8 +23,18 @@
 //     setFavorites((prevFavorites) => prevFavorites.filter((book) => book.id !== id));
 //   };
 
+//   const login = (email, password) => {
+//     // Implement your login logic here
+//     // For now, we'll just simulate a successful login
+//     setIsAuthenticated(true);
+//   };
+
+//   const logout = () => {
+//     setIsAuthenticated(false);
+//   };
+
 //   return (
-//     <AppContext.Provider value={{ favorites, addFavorites, removeFavorites }}>
+//     <AppContext.Provider value={{ favorites, addFavorites, removeFavorites, isAuthenticated, login, logout }}>
 //       {children}
 //     </AppContext.Provider>
 //   );
@@ -37,6 +47,8 @@
 
 
 
+
+// appcontext.js
 import React, { createContext, useContext, useState } from "react";
 
 const AppContext = createContext();
@@ -51,6 +63,7 @@ export const useAppContext = () => {
 
 const AppContextProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
+  const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const addFavorites = (book) => {
@@ -59,6 +72,14 @@ const AppContextProvider = ({ children }) => {
 
   const removeFavorites = (id) => {
     setFavorites((prevFavorites) => prevFavorites.filter((book) => book.id !== id));
+  };
+
+  const borrowBook = (book) => {
+    setBorrowedBooks((prevBorrowedBooks) => [...prevBorrowedBooks, book]);
+  };
+
+  const returnBook = (id) => {
+    setBorrowedBooks((prevBorrowedBooks) => prevBorrowedBooks.filter((book) => book.id !== id));
   };
 
   const login = (email, password) => {
@@ -72,7 +93,7 @@ const AppContextProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ favorites, addFavorites, removeFavorites, isAuthenticated, login, logout }}>
+    <AppContext.Provider value={{ favorites, addFavorites, removeFavorites, borrowedBooks, borrowBook, returnBook, isAuthenticated, login, logout }}>
       {children}
     </AppContext.Provider>
   );
